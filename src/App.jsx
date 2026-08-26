@@ -16,7 +16,7 @@ function App() {
     };
 
     fetchTasks();
-  }, []); // El array vacío [] hace que se ejecute solo una vez al montar
+  }, []);
 
   return (
     <div className="App">
