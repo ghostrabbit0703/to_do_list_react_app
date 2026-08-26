@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+import { API_URL } from './api.service.js';
 export const getAll = async () => {
   try{
     const response = await fetch(`${API_URL}/tasks`, {
@@ -17,7 +17,6 @@ export const getAll = async () => {
     return data;
 
   }catch (e){
-    console.error('Error al obtener las tareas: ', e);
     throw e;
   }
 };
