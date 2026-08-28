@@ -20,7 +20,6 @@ function AppRoutes() {
 
             </Route>
 
-            {/* Ruta por defecto */}
             <Route
                 path="*"
                 element={<Navigate to="/categories" replace />}

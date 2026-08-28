@@ -14,28 +14,45 @@ class ApiClient {
   }
 
   async handleResponse(response) {
-    if (!response.ok) {
-      let errorMessage = `Error ${response.status}: ${response.statusText}`;
-      
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.message || errorData.error || errorMessage;
-      } catch (e) {
 
-      }
-      
-      throw new Error(errorMessage);
+    if (!response.ok) {
+
+        let errorMessage = `Error ${response.status}: ${response.statusText}`;
+
+        try {
+
+            const errorData = await response.json();
+
+            errorMessage =
+                errorData.message ||
+                errorData.error ||
+                errorMessage;
+
+        } catch (e) {
+        }
+
+        throw new Error(errorMessage);
     }
+
     const data = await response.json();
 
-    if (data && typeof data === 'object' && 'success' in data) {
-      if (!data.success) {
-        throw new Error(data.message || 'Error en la operación');
-      }
-      return data.data !== undefined ? data.data : data;
+    if (
+        data &&
+        typeof data === 'object' &&
+        'success' in data
+    ) {
+
+        if (!data.success) {
+            throw new Error(
+                data.message || 'Error en la operación'
+            );
+        }
+
+        return data;
     }
+
     return data;
-  }
+}
 
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
