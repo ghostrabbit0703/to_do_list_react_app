@@ -5,19 +5,30 @@ import categoryService from '../services/category.service';
 function useCategories() {
 
     const [categories, setCategories] = useState([]);
+
     const [loading, setLoading] = useState(true);
+
     const [error, setError] = useState(null);
 
-    const fetchCategories = useCallback(async () => {
+    const [pagination, setPagination] = useState({
+        current_page: 1,
+        last_page: 1,
+        per_page: 10,
+        total: 0
+    });
+
+    const fetchCategories = useCallback(async (page = 1) => {
 
         try {
 
             setLoading(true);
             setError(null);
 
-            const data = await categoryService.getAll();
+            const response = await categoryService.getAll(page);
 
-            setCategories(data);
+            setCategories(response.data);
+
+            setPagination(response.pagination);
 
         } catch (error) {
 
@@ -31,14 +42,38 @@ function useCategories() {
 
     }, []);
 
+    const createCategory = async (categoryData) => {
+
+        try {
+
+            setError(null);
+
+            await categoryService.create(categoryData);
+
+            await fetchCategories(pagination.current_page);
+
+        } catch (error) {
+
+            setError(error.message);
+
+            throw error;
+
+        }
+
+    };
+
     useEffect(() => {
+
         fetchCategories();
+
     }, [fetchCategories]);
 
     return {
         categories,
         loading,
         error,
+        pagination,
+        createCategory,
         reload: fetchCategories
     };
 }

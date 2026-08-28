@@ -1,14 +1,15 @@
 import useCategories from '../hooks/useCategories';
-
 import Table from '../../../components/common/Table/Table';
+import Pagination from '../../../components/common/Pagination/Pagination';
 
-function CategoriesList() {
-
-    const {
-        categories,
-        loading,
-        error
-    } = useCategories();
+function CategoriesList({
+    categories,
+    loading,
+    error,
+    pagination,
+    onPageChange
+}) {
+    console.log('CategoriesList pagination:', pagination);
 
     if (loading) {
         return (
@@ -31,38 +32,46 @@ function CategoriesList() {
     }
 
     return (
-        <Table
-            columns={[
-                {
-                    key: 'id',
-                    label: 'ID'
-                },
-                {
-                    key: 'name',
-                    label: 'Nombre'
-                },
-                {
-                    key: 'actions',
-                    label: 'Acciones',
-                    render: (category) => (
-                        <div className="d-flex gap-2">
-                            <button className="btn btn-sm btn-info">
-                                Ver
-                            </button>
+        <>
+            <Table
+                columns={[
+                    {
+                        key: 'id',
+                        label: 'ID'
+                    },
+                    {
+                        key: 'name',
+                        label: 'Nombre'
+                    },
+                    {
+                        key: 'actions',
+                        label: 'Acciones',
+                        render: (category) => (
+                            <div className="d-flex gap-2">
+                                <button className="btn btn-sm btn-info">
+                                    Ver
+                                </button>
 
-                            <button className="btn btn-sm btn-warning">
-                                Editar
-                            </button>
+                                <button className="btn btn-sm btn-warning">
+                                    Editar
+                                </button>
 
-                            <button className="btn btn-sm btn-danger">
-                                Eliminar
-                            </button>
-                        </div>
-                    )
-                }
-            ]}
-            data={categories}
-        />
+                                <button className="btn btn-sm btn-danger">
+                                    Eliminar
+                                </button>
+                            </div>
+                        )
+                    }
+                ]}
+                data={categories}
+            />
+
+            <Pagination
+                currentPage={pagination.current_page}
+                lastPage={pagination.last_page}
+                onPageChange={onPageChange}
+            />
+        </>
     );
 }
 

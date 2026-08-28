@@ -3,9 +3,9 @@ import API_ENDPOINTS from '../../../api/endpoints';
 
 const categoryService = {
 
-    getAll: async () => {
+    getAll: async (page = 1) => {
         return await apiClient.get(
-            API_ENDPOINTS.CATEGORIES.GET_ALL
+            `${API_ENDPOINTS.CATEGORIES.GET_ALL}?page=${page}`
         );
     },
 
