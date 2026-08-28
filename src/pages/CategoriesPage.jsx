@@ -8,6 +8,7 @@ function CategoriesPage() {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [creating, setCreating] = useState(false);
+    const [updating, setUpdating] = useState(false);
     const { success, error: notifyError } = useNotification();
 
     const {
@@ -16,6 +17,10 @@ function CategoriesPage() {
         error,
         pagination,
         createCategory,
+        updateCategory,
+        editingCategory,
+        setEditCategory,
+        clearEditCategory,
         reload
     } = useCategories();
 
@@ -25,6 +30,7 @@ function CategoriesPage() {
 
     const closeModal = () => {
         setModalOpen(false);
+        clearEditCategory(); 
     };
 
     const handleCreateCategory = async (categoryData) => {
@@ -49,6 +55,27 @@ function CategoriesPage() {
 
         }
     };
+
+    const handleUpdateCategory = async (categoryData) => {
+        try {
+            setUpdating(true);
+            await updateCategory(editingCategory.id, categoryData);
+            success('Categoría actualizada correctamente');
+            closeModal();
+        } catch (error) {
+            notifyError(error.message || 'No se pudo actualizar la categoría');
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleEditCategory = (category) => {
+        setEditCategory(category);
+        setModalOpen(true);
+    };
+
+    const handleSubmit = editingCategory ? handleUpdateCategory : handleCreateCategory;
+    const isLoading = editingCategory ? updating : creating;
 
     return (
         <div>
@@ -75,13 +102,16 @@ function CategoriesPage() {
                 error={error}
                 pagination={pagination}
                 onPageChange={reload}
+                onEditCategory={handleEditCategory}
             />
 
             <CategoryModal
                 isOpen={modalOpen}
                 onClose={closeModal}
-                onSubmit={handleCreateCategory}
-                loading={creating}
+                onSubmit={handleSubmit}  
+                loading={isLoading} 
+                initialData={editingCategory}
+                isEditing={!!editingCategory}
             />
 
         </div>

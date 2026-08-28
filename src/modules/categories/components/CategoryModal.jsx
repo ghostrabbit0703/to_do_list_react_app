@@ -9,7 +9,9 @@ function CategoryModal({
     isOpen,
     onClose,
     onSubmit,
-    loading = false
+    loading = false,
+    initialData = null,  
+    isEditing = false  
 }) {
 
     return (
@@ -19,7 +21,7 @@ function CategoryModal({
         >
 
             <ModalHeader
-                title="Nueva categoría"
+                title={isEditing ? 'Editar categoría' : 'Nueva categoría'}
                 onClose={onClose}
             />
 
@@ -28,6 +30,8 @@ function CategoryModal({
                 <CategoryForm
                     onSubmit={onSubmit}
                     loading={loading}
+                    initialData={initialData} 
+                    isEditing={isEditing}
                 />
 
             </ModalBody>
@@ -49,7 +53,7 @@ function CategoryModal({
                     className="btn btn-primary"
                     disabled={loading}
                 >
-                    {loading ? 'Guardando...' : 'Guardar'}
+                     {loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar')}
                 </button>
 
             </ModalFooter>

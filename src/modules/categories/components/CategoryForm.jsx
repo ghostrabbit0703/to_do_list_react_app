@@ -1,9 +1,17 @@
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 
-function CategoryForm({ onSubmit, loading = false }) {
+function CategoryForm({ onSubmit, loading = false, initialData = null, isEditing = false }) {
 
     const [name, setName] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        if (initialData) {
+            setName(initialData.name || '');
+        } else {
+            setName('');
+        }
+    }, [initialData]);
 
     const handleSubmit = async (event) => {
 

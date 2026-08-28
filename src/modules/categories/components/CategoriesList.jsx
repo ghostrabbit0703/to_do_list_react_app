@@ -7,9 +7,11 @@ function CategoriesList({
     loading,
     error,
     pagination,
-    onPageChange
+    onPageChange,
+    onEditCategory,    
+    onDeleteCategory
 }) {
-    console.log('CategoriesList pagination:', pagination);
+    
 
     if (loading) {
         return (
@@ -52,7 +54,7 @@ function CategoriesList({
                                     Ver
                                 </button>
 
-                                <button className="btn btn-sm btn-warning">
+                                <button className="btn btn-sm btn-warning" onClick={() => onEditCategory(category)}>
                                     Editar
                                 </button>
 
