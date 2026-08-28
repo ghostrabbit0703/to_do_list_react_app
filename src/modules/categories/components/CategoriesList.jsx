@@ -58,7 +58,7 @@ function CategoriesList({
                                     Editar
                                 </button>
 
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger" onClick={() => onDeleteCategory && onDeleteCategory(category.id)}>
                                     Eliminar
                                 </button>
                             </div>
