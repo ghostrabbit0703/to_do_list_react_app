@@ -76,7 +76,18 @@ function useCategories() {
         }
     };
 
-     const setEditCategory = (category) => {
+    const deleteCategory = async (id) => {
+        try {
+            setError(null);
+            await categoryService.delete(id);
+            await fetchCategories(pagination.current_page);
+        } catch (error) {
+            setError(error.message);
+            throw error;
+        }
+    };
+
+    const setEditCategory = (category) => {
         setEditingCategory(category);
     };
 
@@ -97,7 +108,8 @@ function useCategories() {
         error,
         pagination,
         createCategory,
-        updateCategory,      
+        updateCategory,  
+        deleteCategory,    
         editingCategory,    
         setEditCategory,     
         clearEditCategory,   
