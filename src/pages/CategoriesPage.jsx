@@ -2,12 +2,14 @@ import { useState } from 'react';
 import CategoriesList from '../modules/categories/components/CategoriesList';
 import CategoryModal from '../modules/categories/components/CategoryModal';
 import ConfirmModal from '../components/common/Modal/ConfirmModal';
-
 import useCategories from '../modules/categories/hooks/useCategories';
 import { useNotification } from '../context/NotificationContext';
+import CategoryViewModal from '../modules/categories/components/CategoryViewModal';
 
 function CategoriesPage() {
 
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const [categoryToView, setCategoryToView] = useState(null); 
     const [modalOpen, setModalOpen] = useState(false);
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
     const [categoryToDelete, setCategoryToDelete] = useState(null);
@@ -110,6 +112,15 @@ function CategoriesPage() {
     const handleSubmit = editingCategory ? handleUpdateCategory : handleCreateCategory;
     const isLoading = editingCategory ? updating : creating;
 
+    const handleViewCategory = (category) => {
+        setCategoryToView(category);
+        setViewModalOpen(true);
+    };
+
+    const closeViewModal = () => {
+        setViewModalOpen(false);
+        setCategoryToView(null);
+    };
     return (
         <div>
 
@@ -135,8 +146,10 @@ function CategoriesPage() {
                 error={error}
                 pagination={pagination}
                 onPageChange={reload}
+                onViewCategory={handleViewCategory}
                 onEditCategory={handleEditCategory}
                 onDeleteCategory={handleDeleteCategory}
+
             />
 
             <CategoryModal
@@ -147,7 +160,11 @@ function CategoriesPage() {
                 initialData={editingCategory}
                 isEditing={!!editingCategory}
             />
-
+            <CategoryViewModal
+                isOpen={viewModalOpen}
+                onClose={closeViewModal}
+                category={categoryToView}
+            />
             <ConfirmModal
                 isOpen={confirmModalOpen}
                 onClose={cancelDelete}
@@ -165,4 +182,3 @@ function CategoriesPage() {
 }
 
 export default CategoriesPage;
-
