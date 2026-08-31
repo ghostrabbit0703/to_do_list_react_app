@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import MainLayout from "../components/layout/MainLayout";
+import PrivateRoute from "./PrivateRoute";
 
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -22,7 +23,7 @@ function AppRoutes() {
                 element={<RegisterPage />}
             />
 
-            <Route element={<MainLayout />}>
+            <Route element={<PrivateRoute><MainLayout /></PrivateRoute>}>
 
                 <Route
                     path="/categories"
