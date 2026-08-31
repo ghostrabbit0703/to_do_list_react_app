@@ -4,14 +4,18 @@ import TaskModal from '../modules/tasks/components/TaskModal';
 import useTasks from '../modules/tasks/hooks/useTask';
 import { useNotification } from '../context/NotificationContext';
 import useTags from '../modules/tags/hooks/useTags';
+import ConfirmModal from '../components/common/Modal/ConfirmModal';
 import useCategories from '../modules/categories/hooks/useCategories';
 import TaskViewModal from '../modules/tasks/components/TaskViewModal';
 function TasksPage() {
     const [viewModalOpen, setViewModalOpen] = useState(false);
     const [taskToView, setTaskToView] = useState(null); 
     const [modalOpen, setModalOpen] = useState(false);
+    const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+    const [taskToDelete, setTaskToDelete] = useState(null);
     const [creating, setCreating] = useState(false);
     const [updating, setUpdating] = useState(false);
+    const [deleting, setDeleting] = useState(false)
     const { success, error: notifyError } = useNotification();
 
     const {
@@ -21,6 +25,7 @@ function TasksPage() {
         pagination,
         createTask,
         updateTask,
+        deleteTask, 
         editingTask,
         setEditTask,
         reload
@@ -71,7 +76,33 @@ function TasksPage() {
         setEditTask(task);
         setModalOpen(true);
     };
-    
+
+    const handleDeleteTask = (taskId) => {
+        const task = tasks.find(t => t.id === taskId);
+        setTaskToDelete(task);
+        setConfirmModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!taskToDelete) return;
+        
+        try {
+            setDeleting(true);
+            await deleteTask(taskToDelete.id);
+            setConfirmModalOpen(false);
+            setTaskToDelete(null);
+            success('Tarea eliminada correctamente');
+        } catch (error) {
+            notifyError(error.message || 'No se pudo eliminar la tarea');
+        } finally {
+            setDeleting(false);
+        }
+    };
+
+    const cancelDelete = () => {
+        setConfirmModalOpen(false);
+        setTaskToDelete(null);
+    };
     const handleSubmit = editingTask ? handleUpdateTask : handleCreateTask;
     const isLoading = editingTask ? updating : creating;
 
@@ -111,6 +142,7 @@ function TasksPage() {
                 onPageChange={reload}
                 onEditTask={handleEditTask}
                 onViewTask={handleViewTask}
+                onDeleteTask={handleDeleteTask}
             />
 
             <TaskModal
@@ -128,7 +160,17 @@ function TasksPage() {
                 onClose={closeViewModal}
                 task={taskToView}
             />
-          
+            <ConfirmModal
+                isOpen={confirmModalOpen}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title="Eliminar Tarea"
+                message={`¿Estás seguro de que deseas eliminar la tarea "${taskToDelete?.title|| ''}"?`}
+                confirmText="Eliminar"
+                cancelText="Cancelar"
+                loading={deleting}
+                variant="danger"
+            />
         </div>
     );
 }

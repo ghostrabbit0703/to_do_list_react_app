@@ -59,6 +59,17 @@ function useTasks() {
         }
     };
 
+     const deleteTask = async (id) => {
+        try {
+            setError(null);
+            await taskService.delete(id);
+            await fetchTasks(pagination.current_page);
+        } catch (error) {
+            setError(error.message);
+            throw error;
+        }
+    };
+
     const setEditTask = (task) => {
         setEditingTask(task);
     };
@@ -78,6 +89,7 @@ function useTasks() {
         createTask,
         editingTask,
         updateTask,
+        deleteTask,
         setEditTask,  
         clearEditTask,
         reload: fetchTasks
