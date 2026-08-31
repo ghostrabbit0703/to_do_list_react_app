@@ -5,9 +5,10 @@ import useTasks from '../modules/tasks/hooks/useTask';
 import { useNotification } from '../context/NotificationContext';
 import useTags from '../modules/tags/hooks/useTags';
 import useCategories from '../modules/categories/hooks/useCategories';
-
+import TaskViewModal from '../modules/tasks/components/TaskViewModal';
 function TasksPage() {
-
+    const [viewModalOpen, setViewModalOpen] = useState(false);
+    const [taskToView, setTaskToView] = useState(null); 
     const [modalOpen, setModalOpen] = useState(false);
     const [creating, setCreating] = useState(false);
     const [updating, setUpdating] = useState(false);
@@ -74,6 +75,15 @@ function TasksPage() {
     const handleSubmit = editingTask ? handleUpdateTask : handleCreateTask;
     const isLoading = editingTask ? updating : creating;
 
+    const handleViewTask = (task) => {
+        setTaskToView(task);
+        setViewModalOpen(true);
+    };
+
+    const closeViewModal = () => {
+        setViewModalOpen(false);
+        setTaskToView(null);
+    };
     return (
         <div>
 
@@ -100,6 +110,7 @@ function TasksPage() {
                 pagination={pagination}
                 onPageChange={reload}
                 onEditTask={handleEditTask}
+                onViewTask={handleViewTask}
             />
 
             <TaskModal
@@ -111,6 +122,11 @@ function TasksPage() {
                 loading={isLoading} 
                 initialData={editingTask}
                 isEditing={!!editingTask}
+            />
+            <TaskViewModal
+                isOpen={viewModalOpen}
+                onClose={closeViewModal}
+                task={taskToView}
             />
           
         </div>
