@@ -1,10 +1,18 @@
 export const API_ENDPOINTS ={
-    CATEGORIES: {
+  CATEGORIES: {
     GET_ALL: '/categories',
     GET_BY_ID: (id) => `/categories/${id}`,
     CREATE: '/categories',
     UPDATE: (id) => `/categories/${id}`,
     DELETE: (id) => `/categories/${id}`,
+  },
+
+  TAGS: {
+    GET_ALL: '/tags',
+    GET_BY_ID: (id) => `/tags/${id}`,
+    CREATE: '/tags',
+    UPDATE: (id) => `/tags/${id}`,
+    DELETE: (id) => `/tags/${id}`,
   },
 }
 export default API_ENDPOINTS;
