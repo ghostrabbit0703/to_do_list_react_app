@@ -1,5 +1,5 @@
 import {API_ENDPOINTS} from './endpoints';
-import { getToken } from '../utils/authToken';
+import { getToken, clearToken } from '../utils/authToken';
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 const defaultHeaders = {
@@ -19,6 +19,11 @@ class ApiClient {
     if (!response.ok) {
 
         let errorMessage = `Error ${response.status}: ${response.statusText}`;
+
+        if (response.status === 401 && getToken()) {
+            clearToken();
+            errorMessage = 'Tu sesión ha expirado. Vuelve a iniciar sesión.';
+        }
 
         try {
 

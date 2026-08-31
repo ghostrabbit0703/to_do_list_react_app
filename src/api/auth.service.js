@@ -7,6 +7,9 @@ export const authService = {
 
     register: (data) =>
         apiClient.post(API_ENDPOINTS.AUTH.REGISTER, data),
+
+    logout: () =>
+        apiClient.post(API_ENDPOINTS.AUTH.LOGOUT),
 };
 
 export default authService;

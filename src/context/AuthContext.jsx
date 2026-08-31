@@ -6,13 +6,19 @@ import {
 } from 'react';
 
 import authService from '../api/auth.service';
-import { getToken, setToken } from '../utils/authToken';
+import {
+    getToken,
+    setToken,
+    clearToken,
+    getUser,
+    setUser,
+} from '../utils/authToken';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
 
-    const [user, setUser] = useState(null);
+    const [user, setUserState] = useState(() => getUser());
     const [token, setTokenState] = useState(() => getToken());
     const [isAuthenticated, setIsAuthenticated] = useState(Boolean(getToken()));
 
@@ -24,8 +30,9 @@ export function AuthProvider({ children }) {
         const acquiredUser = data.user || data;
 
         setToken(acquiredToken);
-        setTokenState(acquiredToken);
         setUser(acquiredUser);
+        setTokenState(acquiredToken);
+        setUserState(acquiredUser);
         setIsAuthenticated(true);
 
         return data;
@@ -40,12 +47,27 @@ export function AuthProvider({ children }) {
 
         if (acquiredToken) {
             setToken(acquiredToken);
-            setTokenState(acquiredToken);
             setUser(acquiredUser);
+            setTokenState(acquiredToken);
+            setUserState(acquiredUser);
             setIsAuthenticated(true);
         }
 
         return data;
+    }, []);
+
+    const logout = useCallback(async () => {
+        try {
+            await authService.logout();
+        } catch (e) {
+            // Ignorar errores; limpiar de todos modos
+        } finally {
+            clearToken();
+            setTokenState(null);
+            setUser(null);
+            setUserState(null);
+            setIsAuthenticated(false);
+        }
     }, []);
 
     return (
@@ -56,6 +78,7 @@ export function AuthProvider({ children }) {
                 isAuthenticated,
                 login,
                 register,
+                logout,
             }}
         >
             {children}
