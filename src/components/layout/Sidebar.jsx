@@ -23,6 +23,12 @@ function Sidebar({ isOpen }) {
                     >
                         Categorías
                     </NavLink>
+                    <NavLink
+                        to="/tags"
+                        className="nav-link text-white"
+                    >
+                        Etiquetas
+                    </NavLink>
                 </li>
 
         
