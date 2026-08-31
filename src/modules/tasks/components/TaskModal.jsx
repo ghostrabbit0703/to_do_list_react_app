@@ -12,6 +12,8 @@ function TaskModal({
     loading = false,
     categories,
     tags,
+    initialData = null,  
+    isEditing = false  
 }) {
 
     return (
@@ -21,7 +23,7 @@ function TaskModal({
         >
 
             <ModalHeader
-                title={'Nueva Tarea'}
+                title={isEditing ? 'Editar Tarea' : 'Nueva Tarea'}
                 onClose={onClose}
             />
 
@@ -32,6 +34,8 @@ function TaskModal({
                     loading={loading}
                     categories={categories}
                     tags={tags}
+                    initialData={initialData} 
+                    isEditing={isEditing}
                 />
 
             </ModalBody>
@@ -53,7 +57,7 @@ function TaskModal({
                     className="btn btn-primary"
                     disabled={loading}
                 >
-                     {'Guardar'}
+                    {loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar')}
                 </button>
 
             </ModalFooter>

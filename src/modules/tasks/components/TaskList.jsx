@@ -7,6 +7,7 @@ function TaskList({
     error,
     pagination,
     onPageChange,
+    onEditTask,
 }) {
     
 
@@ -97,7 +98,7 @@ function TaskList({
                                     Ver
                                 </button>
 
-                                <button className="btn btn-sm btn-warning">
+                                <button className="btn btn-sm btn-warning" onClick={() => onEditTask(task)}>
                                     Editar
                                 </button>
 

@@ -5,10 +5,10 @@ function TaskForm({
     loading = false,
     initialData = null,
     categories = [],
-    tags = []
+    tags = [],
+    isEditing = false
 }) 
 {
-
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
@@ -24,9 +24,12 @@ function TaskForm({
             setCompleted(initialData.completed || false);
             setSelectedTags(
                 initialData.tags
-                    ? initialData.tags.map(tag => tag.id)
+                    ? initialData.tags.map(tag => ({
+                        value: tag.id,
+                        label: tag.name
+                    }))
                     : []
-                );
+            );
         } else {
             setTitle('');
             setDescription('');

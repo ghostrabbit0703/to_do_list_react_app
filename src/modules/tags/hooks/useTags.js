@@ -20,7 +20,6 @@ function useTags() {
     });
 
     const fetchTags = useCallback(async (page = 1) => {
-
         try {
 
             setLoading(true);
