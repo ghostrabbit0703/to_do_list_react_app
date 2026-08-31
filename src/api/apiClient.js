@@ -1,4 +1,5 @@
 import {API_ENDPOINTS} from './endpoints';
+import { getToken } from '../utils/authToken';
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 const defaultHeaders = {
@@ -64,6 +65,12 @@ class ApiClient {
         ...options.headers,
       },
     };
+
+    const token = getToken();
+
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
 
     if (options.body) {
       config.body = JSON.stringify(options.body);
