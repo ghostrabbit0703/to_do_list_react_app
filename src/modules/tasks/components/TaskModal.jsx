@@ -3,15 +3,15 @@ import ModalHeader from '../../../components/common/Modal/Modalheader';
 import ModalBody from '../../../components/common/Modal/ModalBody';
 import ModalFooter from '../../../components/common/Modal/ModalFooter';
 
-import TagForm from './TagForm';
+import TaskForm from './TaskForm';
 
-function TagModal({
+function TaskModal({
     isOpen,
     onClose,
     onSubmit,
     loading = false,
-    initialData = null,  
-    isEditing = false  
+    categories,
+    tags,
 }) {
 
     return (
@@ -21,17 +21,17 @@ function TagModal({
         >
 
             <ModalHeader
-                title={isEditing ? 'Editar etiqueta' : 'Nueva etiqueta'}
+                title={'Nueva Tarea'}
                 onClose={onClose}
             />
 
             <ModalBody>
 
-                <TagForm
+                <TaskForm
                     onSubmit={onSubmit}
                     loading={loading}
-                    initialData={initialData} 
-                    isEditing={isEditing}
+                    categories={categories}
+                    tags={tags}
                 />
 
             </ModalBody>
@@ -49,11 +49,11 @@ function TagModal({
 
                 <button
                     type="submit"
-                    form="tag-form"
+                    form="task-form"
                     className="btn btn-primary"
                     disabled={loading}
                 >
-                     {loading ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar')}
+                     {'Guardar'}
                 </button>
 
             </ModalFooter>
@@ -62,4 +62,4 @@ function TagModal({
     );
 }
 
-export default TagModal;
+export default TaskModal;

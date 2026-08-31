@@ -29,6 +29,12 @@ function Sidebar({ isOpen }) {
                     >
                         Etiquetas
                     </NavLink>
+                    <NavLink
+                        to="/task"
+                        className="nav-link text-white"
+                    >
+                        Tareas
+                    </NavLink>
                 </li>
 
         

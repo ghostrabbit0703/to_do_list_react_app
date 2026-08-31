@@ -4,6 +4,7 @@ import MainLayout from "../components/layout/MainLayout";
 
 import CategoriesPage from "../pages/CategoriesPage";
 import TagsPage from "../pages/TagsPage";
+import TasksPage from "../pages/TaskPage";
 
 function AppRoutes() {
     return (
@@ -19,6 +20,11 @@ function AppRoutes() {
                 <Route
                     path="/tags"
                     element={<TagsPage />}
+                />
+
+                <Route
+                    path="/task"
+                    element={<TasksPage />}
                 />
 
             </Route>
