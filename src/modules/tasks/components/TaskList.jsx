@@ -8,6 +8,7 @@ function TaskList({
     pagination,
     onPageChange,
     onEditTask,
+    onViewTask
 }) {
     
 
@@ -94,7 +95,7 @@ function TaskList({
                         label: 'Acciones',
                         render: (task) => (
                             <div className="d-flex gap-2">
-                                <button className="btn btn-sm btn-info">
+                                <button className="btn btn-sm btn-info" onClick={() => onViewTask(task)}>
                                     Ver
                                 </button>
 
