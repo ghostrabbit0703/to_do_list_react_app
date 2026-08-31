@@ -23,6 +23,11 @@ const taskService = {
         );
     },
 
+    delete: async (id) => {
+        return await apiClient.delete(
+            API_ENDPOINTS.TASKS.DELETE(id)
+        );
+    },
 
 };
 
