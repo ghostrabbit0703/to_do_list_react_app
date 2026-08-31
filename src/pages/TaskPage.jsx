@@ -10,6 +10,7 @@ function TasksPage() {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [creating, setCreating] = useState(false);
+    const [updating, setUpdating] = useState(false);
     const { success, error: notifyError } = useNotification();
 
     const {
@@ -18,6 +19,9 @@ function TasksPage() {
         error,
         pagination,
         createTask,
+        updateTask,
+        editingTask,
+        setEditTask,
         reload
     } = useTasks();
     const {
@@ -27,26 +31,49 @@ function TasksPage() {
     const {
         tags
     } = useTags();
+
     const openModal = () => {
         setModalOpen(true);
     };
 
     const closeModal = () => {
         setModalOpen(false);
+        setEditTask(null);
     };
 
     const handleCreateTask = async (taskData) => {
         try {
             setCreating(true);
             await createTask(taskData);
-            success('Tarea creada correctamente'); // ✅ Cambiar Etiqueta → Tarea
+            success('Tarea creada correctamente');
             closeModal();
         } catch (error) {
-            notifyError(error.message || 'No se pudo crear la tarea'); // ✅ Cambiar etiqueta → tarea
+            notifyError(error.message || 'No se pudo crear la tarea'); 
         } finally {
             setCreating(false);
         }
     };
+    const handleUpdateTask = async (taskData) => {
+        try {
+            setUpdating(true);
+            await updateTask(editingTask.id, taskData);
+            success('Tarea actualizada correctamente');
+            closeModal();
+        } catch (error) {
+            notifyError(error.message || 'No se pudo editar la tarea');
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleEditTask = (task) => {
+        setEditTask(task);
+        setModalOpen(true);
+    };
+    
+    const handleSubmit = editingTask ? handleUpdateTask : handleCreateTask;
+    const isLoading = editingTask ? updating : creating;
+
     return (
         <div>
 
@@ -72,14 +99,18 @@ function TasksPage() {
                 error={error}
                 pagination={pagination}
                 onPageChange={reload}
+                onEditTask={handleEditTask}
             />
 
             <TaskModal
                 isOpen={modalOpen}
                 onClose={closeModal}
-                onSubmit={handleCreateTask}  
+                onSubmit={handleSubmit}  
                 categories={categories}
                 tags={tags}
+                loading={isLoading} 
+                initialData={editingTask}
+                isEditing={!!editingTask}
             />
           
         </div>
