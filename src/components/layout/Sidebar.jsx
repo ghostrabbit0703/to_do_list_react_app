@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-
+import API_ENDPOINTS from '../../api/endpoints';
 function Sidebar({ isOpen }) {
     return (
         <aside
@@ -18,19 +18,19 @@ function Sidebar({ isOpen }) {
 
                 <li className="nav-item">
                     <NavLink
-                        to="/categories"
+                        to={API_ENDPOINTS.CATEGORIES.GET_ALL}
                         className="nav-link text-white"
                     >
                         Categorías
                     </NavLink>
                     <NavLink
-                        to="/tags"
+                        to={API_ENDPOINTS.TAGS.GET_ALL}
                         className="nav-link text-white"
                     >
                         Etiquetas
                     </NavLink>
                     <NavLink
-                        to="/task"
+                        to={API_ENDPOINTS.TASKS.GET_ALL}
                         className="nav-link text-white"
                     >
                         Tareas

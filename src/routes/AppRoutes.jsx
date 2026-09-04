@@ -5,6 +5,7 @@ import MainLayout from "../components/layout/MainLayout";
 import CategoriesPage from "../pages/CategoriesPage";
 import TagsPage from "../pages/TagsPage";
 import TasksPage from "../pages/TaskPage";
+import API_ENDPOINTS from '../api/endpoints';
 
 function AppRoutes() {
     return (
@@ -13,17 +14,17 @@ function AppRoutes() {
             <Route element={<MainLayout />}>
 
                 <Route
-                    path="/categories"
+                    path={API_ENDPOINTS.CATEGORIES.GET_ALL}
                     element={<CategoriesPage />}
                 />
 
                 <Route
-                    path="/tags"
+                    path={API_ENDPOINTS.TAGS.GET_ALL}
                     element={<TagsPage />}
                 />
 
                 <Route
-                    path="/task"
+                    path={API_ENDPOINTS.TASKS.GET_ALL}
                     element={<TasksPage />}
                 />
 
@@ -31,7 +32,7 @@ function AppRoutes() {
 
             <Route
                 path="*"
-                element={<Navigate to="/categories" replace />}
+                element={<Navigate to={API_ENDPOINTS.CATEGORIES.GET_ALL} replace />}
             />
 
         </Routes>
