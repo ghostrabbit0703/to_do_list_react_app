@@ -18,8 +18,6 @@ function useTasks() {
             setLoading(true);
             setError(null);
             const response = await taskService.getAll(page);
-            
-            // ✅ Cambiar setTags → setTasks
             setTasks(response.data);
             setPagination(response.pagination);
 
@@ -33,7 +31,6 @@ function useTasks() {
     const createTask = async (taskData) => {
         try {
             setError(null);
-            // ✅ Cambiar tagData → taskData
             await taskService.create(taskData);
             await fetchTasks(pagination.current_page);
         } catch (error) {
