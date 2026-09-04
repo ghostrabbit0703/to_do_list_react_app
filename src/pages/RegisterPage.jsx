@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
-
+import API_ENDPOINTS from '../api/endpoints';
 function RegisterPage() {
 
     const [name, setName] = useState('');
@@ -57,7 +57,7 @@ function RegisterPage() {
         try {
             await register({ name, email, password });
             success('Cuenta creada correctamente');
-            navigate('/categories');
+            navigate(API_ENDPOINTS.CATEGORIES.GET_ALL);
         } catch (error) {
             notifyError(error.message || 'No se pudo registrar la cuenta');
         } finally {
@@ -177,7 +177,7 @@ function RegisterPage() {
 
                     <p className="text-center mt-3 mb-0">
                         ¿Ya tienes cuenta?{' '}
-                        <Link to="/login">
+                        <Link to={API_ENDPOINTS.LOGIN}>
                             Inicia sesión
                         </Link>
                     </p>
