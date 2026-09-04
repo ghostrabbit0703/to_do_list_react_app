@@ -68,7 +68,13 @@ function useTags() {
         try {
             setError(null);
             await tagService.update(id, tagData);
-            await fetchTags(pagination.current_page);
+            
+            setTags(prevTags => 
+                prevTags.map(tag => 
+                    tag.id === id ? { ...tag, ...tagData, id: tag.id } : tag
+                )
+            );
+            
             setEditingTag(null);
         } catch (error) {
             setError(error.message);
@@ -80,7 +86,12 @@ function useTags() {
         try {
             setError(null);
             await tagService.delete(id);
-            await fetchTags(pagination.current_page);
+            
+            setTags(prevTags => prevTags.filter(tag => tag.id !== id));
+            
+            if (tags.length === 1 && pagination.current_page > 1) {
+                onPageChange(pagination.current_page - 1);
+            }
         } catch (error) {
             setError(error.message);
             throw error;

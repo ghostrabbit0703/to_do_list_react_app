@@ -158,7 +158,7 @@ function TagsPage() {
                 onSubmit={handleSubmit}  
                 loading={isLoading} 
                 initialData={editingTag}
-                isEditing={!!editingTag}
+                isEditing={Boolean(editingTag)}
             />
             <TagViewModal
                 isOpen={viewModalOpen}
