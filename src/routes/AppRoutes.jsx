@@ -14,12 +14,12 @@ function AppRoutes() {
         <Routes>
 
             <Route
-                path="/login"
+                path={API_ENDPOINTS.AUTH.LOGIN}
                 element={<LoginPage />}
             />
 
             <Route
-                path="/register"
+                path={API_ENDPOINTS.AUTH.REGISTER}
                 element={<RegisterPage />}
             />
 
@@ -31,7 +31,7 @@ function AppRoutes() {
                 />
 
                 <Route
-                    path={API_ENDPOINTS.TAGS.GET_ALL}
+                    path={API_ENDPOINTS.TAGS.GET_ALL}   
                     element={<TagsPage />}
                 />
 
@@ -44,7 +44,7 @@ function AppRoutes() {
 
             <Route
                 path="*"
-                element={<Navigate to="/login" replace />}
+                element={<Navigate to={API_ENDPOINTS.AUTH.LOGIN} replace />}
             />
 
         </Routes>

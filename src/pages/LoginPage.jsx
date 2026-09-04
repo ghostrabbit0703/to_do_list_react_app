@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
-
+import API_ENDPOINTS from '../api/endpoints';
 function LoginPage() {
 
     const [email, setEmail] = useState('');
@@ -43,7 +43,7 @@ function LoginPage() {
         try {
             await login({ email, password });
             success('Sesión iniciada correctamente');
-            navigate('/categories');
+            navigate(API_ENDPOINTS.CATEGORIES.GET_ALL);
         } catch (error) {
             notifyError(error.message || 'No se pudo iniciar sesión');
         } finally {
