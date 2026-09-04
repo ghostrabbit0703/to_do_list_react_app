@@ -45,7 +45,13 @@ function useTasks() {
         try {
             setError(null);
             await taskService.update(id, taskData);
-            await fetchTasks(pagination.current_page);
+            
+            setTasks(prevTasks => 
+                prevTasks.map(task => 
+                    task.id === id ? { ...task, ...taskData, id: task.id } : task
+                )
+            );
+            
             setEditingTask(null);
         } catch (error) {
             setError(error.message);
