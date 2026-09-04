@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/AuthContext';
 import ConfirmModal from '../common/Modal/ConfirmModal';
-
+import API_ENDPOINTS from '../../api/endpoints';
 function Header({ onToggleSidebar }) {
 
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -13,7 +13,7 @@ function Header({ onToggleSidebar }) {
     const handleConfirmLogout = async () => {
         await logout();
         setConfirmOpen(false);
-        navigate('/login');
+        navigate(API_ENDPOINTS.AUTH.LOGIN);
     };
 
     return (

@@ -59,8 +59,6 @@ export function AuthProvider({ children }) {
     const logout = useCallback(async () => {
         try {
             await authService.logout();
-        } catch (e) {
-            // Ignorar errores; limpiar de todos modos
         } finally {
             clearToken();
             setTokenState(null);
