@@ -53,15 +53,18 @@ function useTasks() {
         }
     };
 
-     const deleteTask = async (id) => {
-        try {
-            setError(null);
-            await taskService.delete(id);
-            await fetchTasks(pagination.current_page);
-        } catch (error) {
-            setError(error.message);
-            throw error;
-        }
+    const deleteTask = async (id) => {
+        await taskService.delete(id);
+        
+        setTasks(prevTasks => {
+            const newTasks = prevTasks.filter(task => task.id !== id);
+            
+            if (newTasks.length === 0 && pagination.current_page > 1) {
+                onPageChange(pagination.current_page - 1);
+            }
+            
+            return newTasks;
+        });
     };
 
     const setEditTask = (task) => {
