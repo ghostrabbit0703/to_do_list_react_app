@@ -8,6 +8,7 @@ function CategoriesList({
     error,
     pagination,
     onPageChange,
+    onViewCategory,
     onEditCategory,    
     onDeleteCategory
 }) {
@@ -50,7 +51,7 @@ function CategoriesList({
                         label: 'Acciones',
                         render: (category) => (
                             <div className="d-flex gap-2">
-                                <button className="btn btn-sm btn-info">
+                                <button className="btn btn-sm btn-info" onClick={() => onViewCategory(category)}>
                                     Ver
                                 </button>
 
