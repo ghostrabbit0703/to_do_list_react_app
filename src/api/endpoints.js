@@ -14,5 +14,13 @@ export const API_ENDPOINTS ={
     UPDATE: (id) => `/tags/${id}`,
     DELETE: (id) => `/tags/${id}`,
   },
+
+  TASKS:{
+    GET_ALL: '/tasks',
+    GET_BY_ID: (id) => `/tasks/${id}`,
+    CREATE: '/tasks',
+    UPDATE: (id) => `/tasks/${id}`,
+    DELETE: (id) => `/tasks/${id}`, 
+  }
 }
 export default API_ENDPOINTS;

@@ -29,6 +29,12 @@ function Sidebar({ isOpen }) {
                     >
                         Etiquetas
                     </NavLink>
+                    <NavLink
+                        to={API_ENDPOINTS.TASKS.GET_ALL}
+                        className="nav-link text-white"
+                    >
+                        Tareas
+                    </NavLink>
                 </li>
 
         
