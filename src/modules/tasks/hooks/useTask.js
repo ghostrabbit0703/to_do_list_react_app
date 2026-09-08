@@ -59,6 +59,20 @@ function useTasks() {
         }
     };
 
+    const deleteTask = async (id) => {
+        await taskService.delete(id);
+        
+        setTasks(prevTasks => {
+            const newTasks = prevTasks.filter(task => task.id !== id);
+            
+            if (newTasks.length === 0 && pagination.current_page > 1) {
+                onPageChange(pagination.current_page - 1);
+            }
+            
+            return newTasks;
+        });
+    };
+
     const setEditTask = (task) => {
         setEditingTask(task);
     };
@@ -78,6 +92,7 @@ function useTasks() {
         createTask,
         editingTask,
         updateTask,
+        deleteTask,
         setEditTask,  
         clearEditTask,
         reload: fetchTasks

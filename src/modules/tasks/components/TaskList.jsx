@@ -8,7 +8,8 @@ function TaskList({
     pagination,
     onPageChange,
     onEditTask,
-    onViewTask
+    onViewTask,
+    onDeleteTask
 }) {
     
 
@@ -103,7 +104,7 @@ function TaskList({
                                     Editar
                                 </button>
 
-                                <button className="btn btn-sm btn-danger">
+                                <button className="btn btn-sm btn-danger" onClick={() => onDeleteTask && onDeleteTask(task.id)}>
                                     Eliminar
                                 </button>
                             </div>
