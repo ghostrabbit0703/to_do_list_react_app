@@ -10,10 +10,17 @@ const taskService = {
     },
 
     create: async (data) => {
-            return await apiClient.post(
-                API_ENDPOINTS.TASKS.CREATE,
-                data
-            );
+        return await apiClient.post(
+            API_ENDPOINTS.TASKS.CREATE,
+            data
+        );
+    },
+
+    update: async (id, data) => {
+        return await apiClient.put(
+            API_ENDPOINTS.TASKS.UPDATE(id),
+            data
+        );
     },
 
 
