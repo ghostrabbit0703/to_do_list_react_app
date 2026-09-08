@@ -1,16 +1,16 @@
-import useCategories from '../hooks/useCategories';
+import useTags from '../hooks/useTags';
 import Table from '../../../components/common/Table/Table';
 import Pagination from '../../../components/common/Pagination/Pagination';
 
-function CategoriesList({
-    categories,
+function TagsList({
+    tags,
     loading,
     error,
     pagination,
     onPageChange,
-    onViewCategory,
-    onEditCategory,    
-    onDeleteCategory
+    onViewTag,
+    onEditTag,    
+    onDeleteTag
 }) {
     
 
@@ -49,24 +49,24 @@ function CategoriesList({
                     {
                         key: 'actions',
                         label: 'Acciones',
-                        render: (category) => (
+                        render: (tag) => (
                             <div className="d-flex gap-2">
-                                <button className="btn btn-sm btn-info" onClick={() => onViewCategory(category)}>
+                                <button className="btn btn-sm btn-info" onClick={() => onViewTag(tag)}>
                                     Ver
                                 </button>
 
-                                <button className="btn btn-sm btn-warning" onClick={() => onEditCategory(category)}>
+                                <button className="btn btn-sm btn-warning" onClick={() => onEditTag(tag)}>
                                     Editar
                                 </button>
 
-                                <button className="btn btn-sm btn-danger" onClick={() => onDeleteCategory && onDeleteCategory(category.id)}>
+                                <button className="btn btn-sm btn-danger" onClick={() => onDeleteTag && onDeleteTag(tag.id)}>
                                     Eliminar
                                 </button>
                             </div>
                         )
                     }
                 ]}
-                data={categories}
+                data={tags}
             />
 
             <Pagination
@@ -78,4 +78,4 @@ function CategoriesList({
     );
 }
 
-export default CategoriesList;
+export default TagsList;

@@ -1,5 +1,5 @@
 export const API_ENDPOINTS ={
-    CATEGORIES: {
+  CATEGORIES: {
     GET_ALL: '/categories',
     GET_BY_ID: (id) => `/categories/${id}`,
     CREATE: '/categories',

@@ -1,36 +1,36 @@
 import { useState } from 'react';
-import CategoriesList from '../modules/categories/components/CategoriesList';
-import CategoryModal from '../modules/categories/components/CategoryModal';
+import TagsList from '../modules/tags/components/TagsList';
+import TagModal from '../modules/tags/components/TagModal';
 import ConfirmModal from '../components/common/Modal/ConfirmModal';
-import useCategories from '../modules/categories/hooks/useCategories';
+import useTags from '../modules/tags/hooks/useTags';
 import { useNotification } from '../context/NotificationContext';
-import CategoryViewModal from '../modules/categories/components/CategoryViewModal';
+import TagViewModal from '../modules/tags/components/TagViewModal';
 
-function CategoriesPage() {
+function TagsPage() {
 
     const [viewModalOpen, setViewModalOpen] = useState(false);
-    const [categoryToView, setCategoryToView] = useState(null); 
+    const [tagToView, setTagToView] = useState(null); 
     const [modalOpen, setModalOpen] = useState(false);
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [tagToDelete, setTagToDelete] = useState(null);
     const [creating, setCreating] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [deleting, setDeleting] = useState(false)
     const { success, error: notifyError } = useNotification();
 
     const {
-        categories,
+        tags,
         loading,
         error,
         pagination,
-        createCategory,
-        updateCategory,
-        deleteCategory, 
-        editingCategory,
-        setEditCategory,
-        clearEditCategory,
+        createTag,
+        updateTag,
+        deleteTag, 
+        editingTag,
+        setEditTag,
+        clearEditTag,
         reload
-    } = useCategories();
+    } = useTags();
 
     const openModal = () => {
         setModalOpen(true);
@@ -38,24 +38,24 @@ function CategoriesPage() {
 
     const closeModal = () => {
         setModalOpen(false);
-        clearEditCategory(); 
+        clearEditTag(); 
     };
 
-    const handleCreateCategory = async (categoryData) => {
+    const handleCreateTag = async (tagData) => {
 
         try {
 
             setCreating(true);
 
-            await createCategory(categoryData);
+            await createTag(tagData);
 
-            success('Categoría creada correctamente');
+            success('Etiqueta creada correctamente');
 
             closeModal();
 
         } catch (error) {
 
-            notifyError(error.message || 'No se pudo crear la categoría');
+            notifyError(error.message || 'No se pudo crear la etiqueta');
 
         } finally {
 
@@ -64,41 +64,41 @@ function CategoriesPage() {
         }
     };
 
-    const handleUpdateCategory = async (categoryData) => {
+    const handleUpdateTag = async (tagData) => {
         try {
             setUpdating(true);
-            await updateCategory(editingCategory.id, categoryData);
-            success('Categoría actualizada correctamente');
+            await updateTag(editingTag.id, tagData);
+            success('Etiqueta actualizada correctamente');
             closeModal();
         } catch (error) {
-            notifyError(error.message || 'No se pudo actualizar la categoría');
+            notifyError(error.message || 'No se pudo actualizar la etiqueta');
         } finally {
             setUpdating(false);
         }
     };
 
-    const handleEditCategory = (category) => {
-        setEditCategory(category);
+    const handleEditTag = (tag) => {
+        setEditTag(tag);
         setModalOpen(true);
     };
 
-    const handleDeleteCategory = (categoryId) => {
-        const category = categories.find(cat => cat.id === categoryId);
-        setCategoryToDelete(category);
+    const handleDeleteTag = (tagId) => {
+        const tag = tags.find(t => t.id === tagId);
+        setTagToDelete(tag);
         setConfirmModalOpen(true);
     };
 
     const confirmDelete = async () => {
-        if (!categoryToDelete) return;
+        if (!tagToDelete) return;
         
         try {
             setDeleting(true);
-            await deleteCategory(categoryToDelete.id);
+            await deleteTag(tagToDelete.id);
             setConfirmModalOpen(false);
-            setCategoryToDelete(null);
-            success('Categoría eliminada correctamente');
+            setTagToDelete(null);
+            success('Etiqueta eliminada correctamente');
         } catch (error) {
-            notifyError(error.message || 'No se pudo eliminar la categoría');
+            notifyError(error.message || 'No se pudo eliminar la etiqueta');
         } finally {
             setDeleting(false);
         }
@@ -106,20 +106,20 @@ function CategoriesPage() {
 
     const cancelDelete = () => {
         setConfirmModalOpen(false);
-        setCategoryToDelete(null);
+        setTagToDelete(null);
     };
 
-    const handleSubmit = editingCategory ? handleUpdateCategory : handleCreateCategory;
-    const isLoading = editingCategory ? updating : creating;
+    const handleSubmit = editingTag ? handleUpdateTag : handleCreateTag;
+    const isLoading = editingTag ? updating : creating;
 
-    const handleViewCategory = (category) => {
-        setCategoryToView(category);
+    const handleViewTag = (tag) => {
+        setTagToView(tag);
         setViewModalOpen(true);
     };
 
     const closeViewModal = () => {
         setViewModalOpen(false);
-        setCategoryToView(null);
+        setTagToView(null);
     };
     return (
         <div>
@@ -127,7 +127,7 @@ function CategoriesPage() {
             <div className="d-flex justify-content-between align-items-center mb-4">
 
                 <h1>
-                    Categorías
+                    Etiquetas
                 </h1>
 
                 <button
@@ -135,42 +135,42 @@ function CategoriesPage() {
                     className="btn btn-primary"
                     onClick={openModal}
                 >
-                    Nueva categoría
+                    Nueva etiqueta
                 </button>
 
             </div>
 
-            <CategoriesList
-                categories={categories}
+            <TagsList
+                tags={tags}
                 loading={loading}
                 error={error}
                 pagination={pagination}
                 onPageChange={reload}
-                onViewCategory={handleViewCategory}
-                onEditCategory={handleEditCategory}
-                onDeleteCategory={handleDeleteCategory}
+                onViewTag={handleViewTag}
+                onEditTag={handleEditTag}
+                onDeleteTag={handleDeleteTag}
 
             />
 
-            <CategoryModal
+            <TagModal
                 isOpen={modalOpen}
                 onClose={closeModal}
                 onSubmit={handleSubmit}  
                 loading={isLoading} 
-                initialData={editingCategory}
-                isEditing={!!editingCategory}
+                initialData={editingTag}
+                isEditing={Boolean(editingTag)}
             />
-            <CategoryViewModal
+            <TagViewModal
                 isOpen={viewModalOpen}
                 onClose={closeViewModal}
-                category={categoryToView}
+                tag={tagToView}
             />
             <ConfirmModal
                 isOpen={confirmModalOpen}
                 onClose={cancelDelete}
                 onConfirm={confirmDelete}
-                title="Eliminar categoría"
-                message={`¿Estás seguro de que deseas eliminar la categoría "${categoryToDelete?.name || ''}"?`}
+                title="Eliminar etiqueta"
+                message={`¿Estás seguro de que deseas eliminar la etiqueta "${tagToDelete?.name || ''}"?`}
                 confirmText="Eliminar"
                 cancelText="Cancelar"
                 loading={deleting}
@@ -181,4 +181,4 @@ function CategoriesPage() {
     );
 }
 
-export default CategoriesPage;
+export default TagsPage;
